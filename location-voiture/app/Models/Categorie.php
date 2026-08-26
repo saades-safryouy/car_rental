@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Categorie extends Model
+{
+    use HasFactory;
+
+    protected $table = 'categories';
+    protected $primaryKey = 'id_categorie';
+    protected $fillable = ['nom_categorie', 'image', 'description'];
+
+    public function voitures()
+    {
+        return $this->hasMany(Voiture::class, 'id_categorie', 'id_categorie');
+    }
+}
