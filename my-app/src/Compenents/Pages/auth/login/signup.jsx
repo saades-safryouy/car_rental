@@ -55,7 +55,7 @@ export default function SignupFullScreen() {
     height: window.innerHeight,
   });
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
+  const API_URL = import.meta.env.VITE_API_URL || "https://carrental-production-6b89444d.up.railway.app/api";
 
   // Update window dimensions on resize
   useEffect(() => {

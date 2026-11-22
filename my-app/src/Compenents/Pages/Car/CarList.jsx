@@ -39,8 +39,8 @@ const CarList = () => {
   const [activeView, setActiveView] = useState("grid")
   const [visibleCount, setVisibleCount] = useState(9)
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api"
-  const STORAGE_URL = import.meta.env.VITE_STORAGE_URL || "http://localhost:8000"
+  const API_URL = import.meta.env.VITE_API_URL || "https://carrental-production-6b89444d.up.railway.app/api"
+  const STORAGE_URL = import.meta.env.VITE_STORAGE_URL || "https://carrental-production-6b89444d.up.railway.app"
 
   useEffect(() => {
     const fetchData = async () => {
@@ -180,7 +180,7 @@ const CarList = () => {
     if (!imagePath) return "https://placehold.co/600x400?text=No+Image"
 
     const cleanPath = imagePath.replace(/^\/storage\//, "")
-    return `${import.meta.env.VITE_APP_URL || "http://localhost:8000"}/storage/${cleanPath}`
+    return `${import.meta.env.VITE_APP_URL || "https://carrental-production-6b89444d.up.railway.app"}/storage/${cleanPath}`
   }
 
   const filteredCars = useMemo(() => {
