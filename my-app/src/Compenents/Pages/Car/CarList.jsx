@@ -7,10 +7,7 @@ import {
   CarFront,
   Calendar,
   XCircle,
-  MapPin,
-  Fuel,
-  Settings,
-  Star,
+  Users,
   ArrowRight,
   ChevronRight,
   Filter,
@@ -155,11 +152,6 @@ const CarList = () => {
             id_categorie: car.id_categorie,
             nom_categorie: car.categorie || "Autre",
           },
-          // Add some sample data for enhanced UI
-          transmission: ["Automatique", "Manuelle"][Math.floor(Math.random() * 2)],
-          fuel: ["Essence", "Diesel", "Électrique", "Hybride"][Math.floor(Math.random() * 4)],
-          seats: Math.floor(Math.random() * 3) + 2,
-          rating: (Math.random() * 2 + 3).toFixed(1),
         }))
 
         setCars(normalizedCars)
@@ -433,10 +425,6 @@ const CarCard = ({ car, getImageUrl }) => (
           {car.disponible ? "Disponible" : "Indisponible"}
         </Badge>
 
-        <div className="flex items-center bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-full px-3 py-1.5 shadow-lg">
-          <Star className="h-4 w-4 text-amber-500 fill-amber-500 mr-1.5" />
-          <span className="text-sm font-medium text-gray-900 dark:text-white">{car.rating}/5</span>
-        </div>
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
@@ -465,21 +453,15 @@ const CarCard = ({ car, getImageUrl }) => (
         </div>
         <div className="flex items-center text-sm text-gray-700 dark:text-gray-300">
           <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-3">
-            <Settings className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+            <CarFront className="h-4 w-4 text-blue-600 dark:text-blue-400" />
           </div>
-          <span className="font-medium">{car.transmission}</span>
+          <span className="font-medium">{car.categorie.nom_categorie}</span>
         </div>
         <div className="flex items-center text-sm text-gray-700 dark:text-gray-300">
           <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center mr-3">
-            <Fuel className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+            <Users className="h-4 w-4 text-amber-600 dark:text-amber-400" />
           </div>
-          <span className="font-medium">{car.fuel}</span>
-        </div>
-        <div className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-          <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mr-3">
-            <MapPin className="h-4 w-4 text-purple-600 dark:text-purple-400" />
-          </div>
-          <span className="font-medium">{car.seats} places</span>
+          <span className="font-medium">{car.quantity} disponible{car.quantity > 1 ? "s" : ""}</span>
         </div>
       </div>
     </CardContent>
@@ -548,10 +530,6 @@ const CarListItem = ({ car, getImageUrl }) => (
               {car.disponible ? "Disponible" : "Indisponible"}
             </Badge>
 
-            <div className="flex items-center bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-full px-2.5 py-1 shadow-md">
-              <Star className="h-3.5 w-3.5 text-amber-500 fill-amber-500 mr-1" />
-              <span className="text-xs font-medium text-gray-800 dark:text-gray-200">{car.rating}/5</span>
-            </div>
           </div>
         </div>
 
@@ -569,22 +547,18 @@ const CarListItem = ({ car, getImageUrl }) => (
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-3 gap-4 mb-6">
             <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
               <Calendar className="h-4 w-4 mr-2 text-teal-500 dark:text-teal-400" />
               <span>{car.annee}</span>
             </div>
             <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-              <Settings className="h-4 w-4 mr-2 text-teal-500 dark:text-teal-400" />
-              <span>{car.transmission}</span>
+              <CarFront className="h-4 w-4 mr-2 text-teal-500 dark:text-teal-400" />
+              <span>{car.categorie.nom_categorie}</span>
             </div>
             <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-              <Fuel className="h-4 w-4 mr-2 text-teal-500 dark:text-teal-400" />
-              <span>{car.fuel}</span>
-            </div>
-            <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-              <MapPin className="h-4 w-4 mr-2 text-teal-500 dark:text-teal-400" />
-              <span>{car.seats} places</span>
+              <Users className="h-4 w-4 mr-2 text-teal-500 dark:text-teal-400" />
+              <span>{car.quantity} disponible{car.quantity > 1 ? "s" : ""}</span>
             </div>
           </div>
 
@@ -719,3 +693,4 @@ const EmptyState = () => (
 )
 
 export default CarList
+
