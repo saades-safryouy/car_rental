@@ -51,7 +51,7 @@ const CarDetail = () => {
   const [isLoading, setIsLoading] = useState(false)
   const imageRef = useRef(null)
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api"
+  const API_URL = import.meta.env.VITE_API_URL || "https://carrental-production-6b89444d.up.railway.app/api"
 
   // Animation trigger on page load
   useEffect(() => {
@@ -90,7 +90,7 @@ const CarDetail = () => {
   const getImageUrl = (imagePath) => {
     if (!imagePath) return "https://placehold.co/1200x675?text=No+Image"
     const cleanPath = imagePath.replace(/^\/storage\//, "")
-    return `${import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"}/storage/${cleanPath}`
+    return `${import.meta.env.VITE_API_URL || "https://carrental-production-6b89444d.up.railway.app"}/storage/${cleanPath}`
   }
 
   const carImages = car ? [car.imageFront, car.imageRight, car.imageLeft, car.imageBack].filter(Boolean) : []

@@ -31,7 +31,7 @@ export default function Login({ onLogin }) {
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   // API URL from environment variable
-  const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
+  const API_URL = import.meta.env.VITE_API_URL || "https://carrental-production-6b89444d.up.railway.app/api";
 
   // Handle input changes
   const handleChange = (e) => {
@@ -88,7 +88,7 @@ export default function Login({ onLogin }) {
       setLoginSuccess(true);
       if (onLogin) onLogin(user);
       if (user_type === 'admin') {
-        window.location.href = 'http://127.0.0.1:8000/admin/dashboard';
+        window.location.href = 'https://carrental-production-6b89444d.up.railway.app/admin/dashboard';
       } else {
         window.location.href = '/client-dashboard';
       }
@@ -163,7 +163,7 @@ export default function Login({ onLogin }) {
     const user = JSON.parse(localStorage.getItem("user"));
     if (isLoggedIn && user) {
       if (user.user_type === 'admin') {
-        window.location.href = 'http://127.0.0.1:8000/admin/dashboard';
+        window.location.href = 'https://carrental-production-6b89444d.up.railway.app/admin/dashboard';
       } else {
         window.location.href = '/client-dashboard';
       }
