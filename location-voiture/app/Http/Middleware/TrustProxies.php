@@ -12,7 +12,9 @@ class TrustProxies extends Middleware
      *
      * @var array<int, string>|string|null
      */
-    protected $proxies;
+    // Railway terminates TLS in front of the app: trust its proxy headers
+    // (X-Forwarded-Proto etc.) so URL generation uses https://.
+    protected $proxies = '*';
 
     /**
      * The headers that should be used to detect proxies.
