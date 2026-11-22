@@ -448,7 +448,7 @@ const CarCard = ({ car, getImageUrl }) => (
             <p className="text-sm text-white/90 font-medium tracking-wide">{car.categorie.nom_categorie}</p>
           </div>
           <div className="text-right">
-            <p className="text-3xl font-bold text-white">{car.prix_journalier}€</p>
+            <p className="text-3xl font-bold text-white">{car.prix_journalier} DH</p>
             <p className="text-sm text-white/90 font-medium">par jour</p>
           </div>
         </div>
@@ -564,7 +564,7 @@ const CarListItem = ({ car, getImageUrl }) => (
               <p className="text-sm text-gray-500 dark:text-gray-400">{car.categorie.nom_categorie}</p>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">{car.prix_journalier}€</p>
+              <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">{car.prix_journalier} DH</p>
               <p className="text-xs text-gray-500 dark:text-gray-400">par jour</p>
             </div>
           </div>
