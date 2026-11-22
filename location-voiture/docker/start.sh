@@ -11,6 +11,12 @@ sed -i "s/:80>/:${PORT}>/" /etc/apache2/sites-available/000-default.conf || true
 php artisan migrate --force
 php artisan storage:link || true
 
+# Railway persistent volume mounts storage/app/public as root-owned;
+# make it writable for Apache (www-data) so image uploads survive redeploys.
+mkdir -p storage/app/public
+chown -R www-data:www-data storage/app/public || true
+chmod -R 775 storage/app/public || true
+
 # php:8.2-apache enables both mpm_event and mpm_prefork, which makes
 # Apache fail with "More than one MPM loaded" (AH00534). mod_php needs
 # prefork, so disable the other MPMs here at container start.
