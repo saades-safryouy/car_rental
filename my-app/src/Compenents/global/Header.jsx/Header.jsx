@@ -23,7 +23,7 @@ const Header = () => {
   const [panierCount, setPanierCount] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
+  const API_URL = import.meta.env.VITE_API_URL || "https://carrental-production-6b89444d.up.railway.app/api";
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -249,7 +249,7 @@ const Header = () => {
           </div>
           {userType === 'admin' ? (
             <a
-              href="http://127.0.0.1:8000/admin/dashboard"
+              href="https://carrental-production-6b89444d.up.railway.app/admin/dashboard"
               className="block px-4 py-2 text-text dark:text-light hover:bg-muted/50 hover:animate-sparkle dark:hover:bg-metal/50 transition-all duration-300"
             >
               <div className="flex items-center gap-2">

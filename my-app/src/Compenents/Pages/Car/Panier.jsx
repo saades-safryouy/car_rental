@@ -30,7 +30,7 @@ export default function Panier() {
   const [loadingMessages, setLoadingMessages] = useState({});
   const [openCollapsibles, setOpenCollapsibles] = useState({}); // New state for collapsible open/close
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+  const API_URL = import.meta.env.VITE_API_URL || "https://carrental-production-6b89444d.up.railway.app/api";
 
   const fetchLocations = useCallback(
     async () => {
