@@ -11,8 +11,9 @@ sed -i "s/:80>/:${PORT}>/" /etc/apache2/sites-available/000-default.conf || true
 php artisan migrate --force
 php artisan storage:link || true
 
-echo "=== DEBUG MPM ==="
-ls /etc/apache2/mods-enabled/ || true
-grep -rn "LoadModule.*mpm" /etc/apache2/ || true
+# php:8.2-apache enables both mpm_event and mpm_prefork, which makes
+# Apache fail with "More than one MPM loaded" (AH00534). mod_php needs
+# prefork, so disable the other MPMs here at container start.
+a2dismod mpm_event mpm_worker || true
 
 exec apache2-foreground
