@@ -1,5 +1,4 @@
 
-===== my-app/src/Compenents/global/Header.jsx/Header.jsx =====
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
