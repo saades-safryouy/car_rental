@@ -1,3 +1,5 @@
+
+===== my-app/src/Compenents/global/Header.jsx/Header.jsx =====
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -41,6 +43,12 @@ const Header = () => {
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
         const { id } = JSON.parse(storedUser);
+        // Admins have no client id (their key is id_admin), so `id` is
+        // undefined for them — never call /locations/undefined.
+        if (!id) {
+          setPanierCount(0);
+          return;
+        }
         try {
           const res = await axios.get(`${API_URL}/locations/${id}`, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -378,3 +386,4 @@ const Header = () => {
 };
 
 export default Header;
+
