@@ -90,7 +90,8 @@ const CarDetail = () => {
   const getImageUrl = (imagePath) => {
     if (!imagePath) return "https://placehold.co/1200x675?text=No+Image"
     const cleanPath = imagePath.replace(/^\/storage\//, "")
-    return `${import.meta.env.VITE_API_URL || "https://carrental-production-6b89444d.up.railway.app"}/storage/${cleanPath}`
+    const API_BASE = (import.meta.env.VITE_API_URL || "https://carrental-production-6b89444d.up.railway.app").replace(/\/api\/?$/, "")
+    return `${API_BASE}/storage/${cleanPath}`
   }
 
   const carImages = car ? [car.imageFront, car.imageRight, car.imageLeft, car.imageBack].filter(Boolean) : []
@@ -502,7 +503,7 @@ const CarDetail = () => {
                       <div>
                         <p className="text-white/80 font-medium text-lg">Prix journalier</p>
                         <div className="flex items-end">
-                          <p className="text-5xl font-bold text-white tracking-tight">{car.prix_journalier}€</p>
+                          <p className="text-5xl font-bold text-white tracking-tight">{car.prix_journalier} DH</p>
                           <span className="text-white/80 ml-2 mb-2 text-lg">/jour</span>
                         </div>
                       </div>
@@ -582,7 +583,7 @@ const CarDetail = () => {
                               <div>
                                 <Label className="text-slate-900 dark:text-white">Montant total</Label>
                                 <p className="text-2xl font-semibold text-teal-600 dark:text-teal-400 mt-2">
-                                  {montantTotal}€ {montantTotal > 0 && <span className="text-sm">TTC</span>}
+                                  {montantTotal} DH {montantTotal > 0 && <span className="text-sm">TTC</span>}
                                 </p>
                               </div>
                               <div className="flex justify-end space-x-4">
