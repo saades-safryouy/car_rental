@@ -11,4 +11,8 @@ sed -i "s/:80>/:${PORT}>/" /etc/apache2/sites-available/000-default.conf || true
 php artisan migrate --force
 php artisan storage:link || true
 
+echo "=== DEBUG MPM ==="
+ls /etc/apache2/mods-enabled/ || true
+grep -rn "LoadModule.*mpm" /etc/apache2/ || true
+
 exec apache2-foreground
