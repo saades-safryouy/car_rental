@@ -1,0 +1,42 @@
+# Render Blueprint for car_rental backend
+# Deploy via: Render Dashboard -> New -> Blueprint -> select this repo
+# DB is NOT Render Postgres (free tier is 30 days, and migrations use
+# MySQL enum()). Use an external MySQL-compatible DB (TiDB Serverless
+# free tier recommended) and set DB_* below in the Render dashboard.
+services:
+  - type: web
+    name: car-rental-api
+    env: docker
+    repo: https://github.com/saades-safryouy/car_rental
+    branch: master
+    rootDir: location-voiture
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /api/voitures
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false
+      - key: APP_URL
+        value: https://car-rental-api.onrender.com
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "4000"
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: file
+      - key: LOG_LEVEL
+        value: error
