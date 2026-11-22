@@ -11,7 +11,7 @@ const CategoryManager = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost/api/categories');
+      const response = await axios.get('https://carrental-production-6b89444d.up.railway.app/api/categories');
       setCategories(response.data);
     } catch (error) {
       alert('Erreur lors du chargement des catégories');
@@ -22,9 +22,9 @@ const CategoryManager = () => {
     e.preventDefault();
     try {
       if (form.id) {
-        await axios.put(`http://localhost/api/categories/${form.id}`, { name: form.name });
+        await axios.put(`https://carrental-production-6b89444d.up.railway.app/api/categories/${form.id}`, { name: form.name });
       } else {
-        await axios.post('http://localhost/api/categories', { name: form.name });
+        await axios.post('https://carrental-production-6b89444d.up.railway.app/api/categories', { name: form.name });
       }
       fetchCategories();
       setForm({ id: null, name: '' });
@@ -39,7 +39,7 @@ const CategoryManager = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost/api/categories/${id}`);
+      await axios.delete(`https://carrental-production-6b89444d.up.railway.app/api/categories/${id}`);
       fetchCategories();
     } catch (error) {
       alert('Erreur lors de la suppression de la catégorie');

@@ -11,7 +11,7 @@ const Categories = ({ onDataFetched }) => {
     const fetchCategories = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:8000/api/categories');
+        const response = await axios.get('https://carrental-production-6b89444d.up.railway.app/api/categories');
         const data = Array.isArray(response.data) ? response.data : [];
         setCategories(data);
         onDataFetched(data); // Passe les données au parent

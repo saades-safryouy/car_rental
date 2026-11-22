@@ -11,7 +11,7 @@ const Marques = ({ onDataFetched }) => {
     const fetchBrands = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:8000/api/marques');
+        const response = await axios.get('https://carrental-production-6b89444d.up.railway.app/api/marques');
         const data = Array.isArray(response.data) ? response.data : [];
         setBrands(data);
         onDataFetched(data); // Passe les données au parent
