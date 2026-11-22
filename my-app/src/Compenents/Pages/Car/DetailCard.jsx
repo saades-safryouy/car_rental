@@ -1,6 +1,8 @@
+
+===== my-app/src/Compenents/Pages/Car/DetailCard.jsx =====
 "use client"
 
-import { useLocation, Link, useNavigate } from "react-router-dom"
+import { useLocation, Link, useNavigate, useParams } from "react-router-dom"
 import {
   CarFront,
   Calendar,
@@ -14,6 +16,7 @@ import {
   Heart,
   Share2,
   Banknote,
+  Gauge,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -29,8 +32,13 @@ import toast from "react-hot-toast"
 
 const CarDetail = () => {
   const { state } = useLocation()
-  const car = state?.car
+  const { id } = useParams()
   const navigate = useNavigate()
+  // The car may arrive via navigation state (click from the list) or must be
+  // fetched by id (direct load / refresh / shared link). There is no
+  // GET /api/voitures/:id route, so fetch the list and pick the matching car.
+  const [car, setCar] = useState(state?.car ?? null)
+  const [loadingCar, setLoadingCar] = useState(!state?.car)
   const [activeImage, setActiveImage] = useState(0)
   const [isAnimated, setIsAnimated] = useState(false)
   const [showMagicEffect, setShowMagicEffect] = useState(false)
@@ -46,6 +54,28 @@ const CarDetail = () => {
   const imageRef = useRef(null)
 
   const API_URL = import.meta.env.VITE_API_URL || "https://carrental-production-6b89444d.up.railway.app/api"
+
+  // Fetch the car by id when it was not passed via navigation state
+  useEffect(() => {
+    if (car) return
+    let cancelled = false
+    const fetchCar = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/voitures`)
+        const list = Array.isArray(res.data) ? res.data : []
+        const found = list.find((v) => String(v.id_voiture) === String(id))
+        if (!cancelled && found) setCar(found)
+      } catch (err) {
+        console.error("Failed to load car:", err)
+      } finally {
+        if (!cancelled) setLoadingCar(false)
+      }
+    }
+    fetchCar()
+    return () => {
+      cancelled = true
+    }
+  }, [id, car])
 
   // Animation trigger on page load
   useEffect(() => {
@@ -87,6 +117,12 @@ const CarDetail = () => {
     const API_BASE = (import.meta.env.VITE_API_URL || "https://carrental-production-6b89444d.up.railway.app").replace(/\/api\/?$/, "")
     return `${API_BASE}/storage/${cleanPath}`
   }
+
+  // The API returns marque/categorie as plain strings ("Renault", "Citadine"),
+  // not objects — read both shapes defensively.
+  const marqueName = typeof car?.marque === "string" ? car.marque : car?.marque?.nom_marque ?? ""
+  const categorieName =
+    typeof car?.categorie === "string" ? car.categorie : car?.categorie?.nom_categorie ?? ""
 
   const carImages = car ? [car.imageFront, car.imageRight, car.imageLeft, car.imageBack].filter(Boolean) : []
 
@@ -168,6 +204,14 @@ const CarDetail = () => {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  if (loadingCar) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-teal-100 dark:from-slate-900 dark:to-teal-950 py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+        <p className="text-xl font-medium text-slate-600 dark:text-slate-300">Chargement du véhicule…</p>
+      </div>
+    )
   }
 
   if (!car || !car.id_voiture) {
@@ -350,7 +394,7 @@ const CarDetail = () => {
                   animate={{ scale: 1 }}
                   transition={{ duration: 1.2 }}
                   src={getImageUrl(carImages[activeImage])}
-                  alt={`${car.marque.nom_marque} ${car.modele}`}
+                  alt={`${marqueName} ${car.modele}`}
                   onError={(e) => {
                     e.target.onerror = null
                     e.target.src = "https://placehold.co/1200x675?text=No+Image"
@@ -372,7 +416,7 @@ const CarDetail = () => {
                         transition={{ delay: 0.7, duration: 0.8 }}
                         className="text-4xl xl:text-5xl font-bold text-white drop-shadow-xl tracking-tight"
                       >
-                        {car.marque.nom_marque} {car.modele}
+                        {marqueName} {car.modele}
                       </motion.h1>
                       <motion.div
                         initial={{ opacity: 0 }}
@@ -380,7 +424,7 @@ const CarDetail = () => {
                         transition={{ delay: 0.9, duration: 0.8 }}
                         className="flex items-center mt-3 gap-4"
                       >
-                        <p className="text-xl text-white/90 font-medium">{car.categorie.nom_categorie}</p>
+                        <p className="text-xl text-white/90 font-medium">{categorieName}</p>
                       </motion.div>
                     </div>
                     <motion.div
@@ -493,7 +537,7 @@ const CarDetail = () => {
                           <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50" />
                           <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-2xl z-50 max-w-md w-full">
                             <Dialog.Title className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
-                              Réserver {car.marque.nom_marque} {car.modele}
+                              Réserver {marqueName} {car.modele}
                             </Dialog.Title>
                             <div className="space-y-6">
                               <div>
@@ -577,7 +621,7 @@ const CarDetail = () => {
                     <div className="p-5 rounded-2xl bg-teal-50/50 dark:bg-teal-900/20 border border-teal-100/50 dark:border-teal-800/30 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 duration-300">
                       <CarFront className="h-8 w-8 mb-3 text-teal-600 dark:text-teal-400" />
                       <p className="text-sm text-teal-700/70 dark:text-teal-300/70">Catégorie</p>
-                      <p className="text-lg font-semibold text-slate-900 dark:text-white">{car.categorie.nom_categorie}</p>
+                      <p className="text-lg font-semibold text-slate-900 dark:text-white">{categorieName}</p>
                     </div>
                     <div className="p-5 rounded-2xl bg-teal-50/50 dark:bg-teal-900/20 border border-teal-100/50 dark:border-teal-800/30 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 duration-300">
                       <Users className="h-8 w-8 mb-3 text-teal-600 dark:text-teal-400" />
@@ -713,3 +757,4 @@ const CarDetail = () => {
 }
 
 export default CarDetail
+
