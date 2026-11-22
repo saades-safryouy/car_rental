@@ -1,5 +1,4 @@
 
-===== my-app/src/Compenents/Pages/Car/DetailCard.jsx =====
 "use client"
 
 import { useLocation, Link, useNavigate, useParams } from "react-router-dom"
