@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import { Search as SearchIcon, Loader2, Car, BookOpen, Tag, Filter, Calendar, MapPin, Settings } from "lucide-react";
+import { Search as SearchIcon, Loader2, Car, BookOpen, Tag, Filter, Calendar, MapPin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,7 +20,7 @@ const categories = [
 
 // Articles de blog en local (à remplacer par une API si besoin)
 // Importer les icônes nécessaires
-import { Users, Snowflake } from "lucide-react";
+import { Users } from "lucide-react";
 
 // Configuration du composant
 const searchConfig = {
@@ -30,18 +30,6 @@ const searchConfig = {
     { label: "300-500 DH", value: "300-500" },
     { label: "500-1000 DH", value: "500-1000" },
     { label: "1000+ DH", value: "1000+" }
-  ],
-  transmissions: [
-    { label: "Toutes", value: "all" },
-    { label: "Automatique", value: "automatique" },
-    { label: "Manuelle", value: "manuelle" }
-  ],
-  seatsCount: [
-    { label: "Toutes", value: "all" },
-    { label: "2 places", value: "2" },
-    { label: "4 places", value: "4" },
-    { label: "5 places", value: "5" },
-    { label: "7 places", value: "7" }
   ],
   sortOptions: [
     { label: "Prix croissant", value: "price-asc" },
@@ -57,8 +45,6 @@ export default function SearchProfessional() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedBrand, setSelectedBrand] = useState('all');
   const [priceRange, setPriceRange] = useState([0, 5000]);
-  const [transmission, setTransmission] = useState('all');
-  const [seatsCount, setSeatsCount] = useState('all');
   const [sortBy, setSortBy] = useState('price-asc');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -112,15 +98,8 @@ export default function SearchProfessional() {
       
       const matchesPrice = car.prix_journalier >= priceRange[0] && 
                           car.prix_journalier <= priceRange[1];
-      
-      const matchesTransmission = transmission === 'all' || 
-                                 car.transmission === transmission;
-      
-      const matchesSeats = seatsCount === 'all' || 
-                          car.seats?.toString() === seatsCount;
 
-      return matchesQuery && matchesCategory && matchesBrand && 
-             matchesPrice && matchesTransmission && matchesSeats;
+      return matchesQuery && matchesCategory && matchesBrand && matchesPrice;
     });
 
     // Tri des résultats
@@ -145,15 +124,13 @@ export default function SearchProfessional() {
     setHasMore(endIndex < sorted.length);
     
     return sorted.slice(startIndex, endIndex);
-  }, [allData, query, selectedCategory, selectedBrand, priceRange, transmission, seatsCount, sortBy, page]);
+  }, [allData, query, selectedCategory, selectedBrand, priceRange, sortBy, page]);
 
   // Gestionnaire de réinitialisation des filtres
   const handleResetFilters = useCallback(() => {
     setSelectedCategory('all');
     setSelectedBrand('all');
     setPriceRange([0, 5000]);
-    setTransmission('all');
-    setSeatsCount('all');
     setQuery('');
     setSortBy('price-asc');
     setPage(1);
@@ -177,7 +154,7 @@ export default function SearchProfessional() {
           <CardContent className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
               {/* Recherche */}
-              <div className="md:col-span-4">
+              <div className="md:col-span-6">
                 <label className="text-sm font-medium text-primary dark:text-light mb-2 block">
                   Recherche
                 </label>
@@ -233,22 +210,6 @@ export default function SearchProfessional() {
                 </Select>
               </div>
 
-              {/* Transmission */}
-              <div className="md:col-span-2">
-                <label className="text-sm font-medium text-primary dark:text-light mb-2 block">
-                  Transmission
-                </label>
-                <Select value={transmission} onValueChange={setTransmission}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Type de transmission" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Toutes</SelectItem>
-                    <SelectItem value="Automatique">Automatique</SelectItem>
-                    <SelectItem value="Manuelle">Manuelle</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
 
               {/* Tri */}
               <div className="md:col-span-2">
@@ -354,19 +315,13 @@ export default function SearchProfessional() {
 
                               <div className="flex flex-wrap gap-2">
                                 <Badge variant="outline" className="text-xs">
-                                  <Settings className="w-3 h-3 mr-1" />
-                                  {car.transmission}
+                                  <Tag className="w-3 h-3 mr-1" />
+                                  {car.categorie?.nom_categorie}
                                 </Badge>
                                 <Badge variant="outline" className="text-xs">
                                   <Users className="w-3 h-3 mr-1" />
-                                  {car.seats} places
+                                  {car.quantity} disponible{car.quantity > 1 ? "s" : ""}
                                 </Badge>
-                                {car.climatisation && (
-                                  <Badge variant="outline" className="text-xs">
-                                    <Snowflake className="w-3 h-3 mr-1" />
-                                    Climatisation
-                                  </Badge>
-                                )}
                               </div>
                             </div>
                           </CardContent>
@@ -408,3 +363,4 @@ export default function SearchProfessional() {
     </div>
   );
 }
+
