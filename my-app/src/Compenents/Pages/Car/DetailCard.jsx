@@ -4,10 +4,7 @@ import { useLocation, Link, useNavigate } from "react-router-dom"
 import {
   CarFront,
   Calendar,
-  Settings,
-  Fuel,
-  MapPin,
-  Star,
+  Users,
   ArrowLeft,
   ChevronRight,
   ShieldCheck,
@@ -16,9 +13,6 @@ import {
   Clock,
   Heart,
   Share2,
-  Zap,
-  Gauge,
-  Award,
   Banknote,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -387,11 +381,6 @@ const CarDetail = () => {
                         className="flex items-center mt-3 gap-4"
                       >
                         <p className="text-xl text-white/90 font-medium">{car.categorie.nom_categorie}</p>
-                        <span className="text-white/70">•</span>
-                        <div className="flex items-center bg-white/20 backdrop-blur-md px-4 py-2 rounded-full shadow-inner">
-                          <Star className="h-5 w-5 text-amber-400 fill-amber-400 mr-2" />
-                          <span className="font-semibold text-white text-lg">{car.rating}/5</span>
-                        </div>
                       </motion.div>
                     </div>
                     <motion.div
@@ -443,49 +432,6 @@ const CarDetail = () => {
               </motion.div>
             )}
 
-            {/* Car features section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-            >
-              <Card className="backdrop-blur-lg bg-white/90 dark:bg-slate-900/80 border border-slate-200/50 dark:border-slate-700/50 shadow-xl rounded-3xl overflow-hidden">
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
-                    Caractéristiques principales
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="flex items-center p-4 rounded-xl bg-teal-50/50 dark:bg-teal-900/20 border border-teal-100/50 dark:border-teal-800/30">
-                      <div className="w-12 h-12 rounded-full bg-teal-100 dark:bg-teal-800/50 flex items-center justify-center mr-4">
-                        <Zap className="h-6 w-6 text-teal-600 dark:text-teal-400" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-teal-700/70 dark:text-teal-300/70">Puissance</p>
-                        <p className="text-lg font-semibold text-slate-900 dark:text-white">280 CV</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center p-4 rounded-xl bg-teal-50/50 dark:bg-teal-900/20 border border-teal-100/50 dark:border-teal-800/30">
-                      <div className="w-12 h-12 rounded-full bg-teal-100 dark:bg-teal-800/50 flex items-center justify-center mr-4">
-                        <Gauge className="h-6 w-6 text-teal-600 dark:text-teal-400" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-teal-700/70 dark:text-teal-300/70">0-100 km/h</p>
-                        <p className="text-lg font-semibold text-slate-900 dark:text-white">6.2 sec</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center p-4 rounded-xl bg-teal-50/50 dark:bg-teal-900/20 border border-teal-100/50 dark:border-teal-800/30">
-                      <div className="w-12 h-12 rounded-full bg-teal-100 dark:bg-teal-800/50 flex items-center justify-center mr-4">
-                        <Award className="h-6 w-6 text-teal-600 dark:text-teal-400" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-teal-700/70 dark:text-teal-300/70">Classe</p>
-                        <p className="text-lg font-semibold text-slate-900 dark:text-white">Premium</p>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
           </div>
 
           {/* Right Column: Car Details */}
@@ -629,19 +575,19 @@ const CarDetail = () => {
                       <p className="text-lg font-semibold text-slate-900 dark:text-white">{car.annee}</p>
                     </div>
                     <div className="p-5 rounded-2xl bg-teal-50/50 dark:bg-teal-900/20 border border-teal-100/50 dark:border-teal-800/30 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 duration-300">
-                      <Settings className="h-8 w-8 mb-3 text-teal-600 dark:text-teal-400" />
-                      <p className="text-sm text-teal-700/70 dark:text-teal-300/70">Transmission</p>
-                      <p className="text-lg font-semibold text-slate-900 dark:text-white">{car.transmission}</p>
+                      <CarFront className="h-8 w-8 mb-3 text-teal-600 dark:text-teal-400" />
+                      <p className="text-sm text-teal-700/70 dark:text-teal-300/70">Catégorie</p>
+                      <p className="text-lg font-semibold text-slate-900 dark:text-white">{car.categorie.nom_categorie}</p>
                     </div>
                     <div className="p-5 rounded-2xl bg-teal-50/50 dark:bg-teal-900/20 border border-teal-100/50 dark:border-teal-800/30 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 duration-300">
-                      <Fuel className="h-8 w-8 mb-3 text-teal-600 dark:text-teal-400" />
-                      <p className="text-sm text-teal-700/70 dark:text-teal-300/70">Carburant</p>
-                      <p className="text-lg font-semibold text-slate-900 dark:text-white">{car.fuel}</p>
+                      <Users className="h-8 w-8 mb-3 text-teal-600 dark:text-teal-400" />
+                      <p className="text-sm text-teal-700/70 dark:text-teal-300/70">Quantité</p>
+                      <p className="text-lg font-semibold text-slate-900 dark:text-white">{car.quantity} disponible{car.quantity > 1 ? "s" : ""}</p>
                     </div>
                     <div className="p-5 rounded-2xl bg-teal-50/50 dark:bg-teal-900/20 border border-teal-100/50 dark:border-teal-800/30 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 duration-300">
-                      <MapPin className="h-8 w-8 mb-3 text-teal-600 dark:text-teal-400" />
-                      <p className="text-sm text-teal-700/70 dark:text-teal-300/70">Places</p>
-                      <p className="text-lg font-semibold text-slate-900 dark:text-white">{car.seats}</p>
+                      <ShieldCheck className="h-8 w-8 mb-3 text-teal-600 dark:text-teal-400" />
+                      <p className="text-sm text-teal-700/70 dark:text-teal-300/70">Disponibilité</p>
+                      <p className="text-lg font-semibold text-slate-900 dark:text-white">{car.disponible ? "Disponible" : "Indisponible"}</p>
                     </div>
                   </motion.div>
 
